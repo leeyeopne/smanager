@@ -27,10 +27,10 @@ public class StudentControl {
 				addStudent();
 				break;
 			case 3:
-				
+				updateStudent();
 				break;
 			case 4:
-				
+				delStudent();
 				break;
 			case 5:
 				System.out.println("프로그램 종료");
@@ -73,4 +73,39 @@ public class StudentControl {
 			System.out.println(svo.briefShow());
 		}
 	} // end of studentlist
+	void updateStudent() {
+		System.out.print(">학생번호 입력 : ");
+		String sno = sc.nextLine();
+		System.out.print(">학생이름 입력 : ");
+		String sname = sc.nextLine();
+		System.out.print(">연락처 입력 : ");
+		String phon = sc.nextLine();
+		System.out.print(">주소 입력 : ");
+		String add = sc.nextLine();
+		System.out.print(">생일 입력 : ");
+		String birth = sc.nextLine();		
+//		god();
+//		modStudent(up1, up2, where,where2);
+//		 // 입력.
+		StudentVo std = new StudentVo();
+		std.setStdNo(sno);
+		std.setStdName(sname);
+		std.setStdPhone(phon);
+		std.setStdAddress(add);
+		std.setBirthDate(birth);
+		if(sdao.modStu(std)) {
+			System.out.println("저장완료!");
+		}else {
+			System.out.println("처리중 예외발생");
+		}		
+	}
+	void delStudent() {
+		System.out.print("> 삭제할 학생 번호 : ");
+		String sno = sc.nextLine();	
+		if(sdao.removeStudent(sno)) {
+			System.out.println("저장완료!");
+		}else {
+			System.out.println("처리중 예외발생");
+		}			
+	}	
 }
