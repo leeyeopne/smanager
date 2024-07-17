@@ -1,0 +1,7 @@
+/build/
+/target/
+/.settings/
+/target/
+/selfjava/
+/.project
+/.classpath

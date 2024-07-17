@@ -4,26 +4,30 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import co.yedam.vo.GYMVo;
 import co.yedam.vo.StudentVo;
 
 // 목록, 등록, 수정, 삭제
 // 주의 : DAO 메세지(sysou)가 없음.
-public class StudentDAO extends DAO{
-	
+public class GYMDAO extends GYMDAO2{
+
 	// 등록기능.
-	public boolean insertStudent(StudentVo svo) {
-		String sql = "insert into tbl_student(std_no, std_name, std_phone, std_address, birth_date)";
-		sql += "values(?,?,?,?,?)";
+	public boolean insertMember(GYMVo svo) {
+		String sql = "insert into GYM(memberId, memberName, age, memberSex, phone,address,trainer)";
+		sql += "values(seq.NEXTVAL, ?,?,?,?,?)";
 		conn = getConn();
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, svo.getStdNo());
-			psmt.setString(2, svo.getStdName());
-			psmt.setString(3, svo.getStdPhone());
-			psmt.setString(4, svo.getStdAddress());
-			psmt.setString(5, svo.getBirthDate());
+			psmt.setInt(1, 1);
+			psmt.setString(2, svo.getMemberName());
+			psmt.setInt(3, svo.getAge());
+			psmt.setInt(4, svo.getMemberSex());
+			psmt.setString(5, svo.getPhone());
+			psmt.setString(6, svo.getAddress());
+			psmt.setString(7, svo.getTrainer());
 			
 			int r = psmt.executeUpdate();//쿼리실행
 			if(r == 1) {
@@ -35,24 +39,33 @@ public class StudentDAO extends DAO{
 		}
 		return false; // 비정상처리
 	}
-	
+//	private String memberId; //std_no
+//	private String memberName; 
+//	private int age; 
+//	private int memberSex; 
+//	private int phone; 
+//	private String address; 
+//	private Date startDay;
+//	private String trainer; 
 	// 목록반환기능.
-	public List<StudentVo> selectList(){
-		String sql = "select * from tbl_student order by std_no";
-		List<StudentVo> list = new ArrayList<>();
+	public List<GYMVo> selectList(){
+		String sql = "select * from GYM order by memberId";
+		List<GYMVo> list = new ArrayList<>();
 		
 		conn = getConn();
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				StudentVo svo = new StudentVo();
-				svo.setStdAddress(rs.getString("std_address"));
-				svo.setBirthDate(rs.getString("birth_date"));
-				svo.setCreationDate(rs.getDate("creation_date"));
-				svo.setStdName(rs.getString("std_name"));
-				svo.setStdNo(rs.getString("std_no"));
-				svo.setStdPhone(rs.getString("std_phone"));
+				GYMVo svo = new GYMVo();
+				svo.setMemberId(rs.getInt("memberId"));
+				svo.setMemberName(rs.getString("memberName"));
+				svo.setAge(rs.getInt("age"));
+				svo.setMemberSex(rs.getInt("memberSex"));
+				svo.setPhone(rs.getString("phone"));
+				svo.setAddress(rs.getString("address"));
+				svo.setStartDay(rs.getDate("startDay"));
+				svo.setTrainer(rs.getString("trainer"));
 				list.add(svo);
 			}
 		} catch (SQLException e) {

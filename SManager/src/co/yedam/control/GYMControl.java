@@ -3,25 +3,29 @@ package co.yedam.control;
 import java.util.List;
 import java.util.Scanner;
 
-import co.yedam.dao.StudentDAO;
+import co.yedam.dao.GYMDAO;
+import co.yedam.vo.GYMVo;
 import co.yedam.vo.StudentVo;
 
 // 사용자 입력을 가이드, 처리된 결과 출력.
-public class StudentControl {
+public class GYMControl {
 	Scanner sc = new Scanner(System.in);
-	StudentDAO sdao = new StudentDAO();
+	GYMDAO sdao = new GYMDAO();
+	
 	
 	public void run() {
 		boolean isTrue = true;
-		System.out.println("학생관리 프로그램 v.1.0");
+		System.out.println("======================================");
+		System.out.println("         헬스장 회원관리 프로그램");
+		System.out.println("======================================");
 		while(isTrue) {
-			System.out.println("1.학생목록 2.등록 3.수정 4.삭제 5.종료");
+			System.out.println("1.회원등록  2.회원정보수정 3.회원목록 4.회원상세정보 5.종료");
 			System.out.println("선택 > ");
 			int menu = Integer.parseInt(sc.nextLine());
-			
+
 			switch(menu) {
 			case 1:
-				studentlist();
+				selectList();
 				break;
 			case 2:
 				addStudent();
@@ -51,26 +55,26 @@ public class StudentControl {
 		System.out.print(">생일 입력 : ");
 		String birth = sc.nextLine();	
 		
-		StudentVo std = new StudentVo();
-		std.setStdNo(sno);
-		std.setStdName(sname);
-		std.setStdPhone(phon);;
-		std.setStdAddress(add);
-		std.setBirthDate(birth);;
-		
-		if(sdao.insertStudent(std)) {
-			System.out.println("저장완료!");
-		}else {
-			System.out.println("처리중 예외발생");
-		}
+//		StudentVo std = new StudentVo();
+//		std.setStdNo(sno);
+//		std.setStdName(sname);
+//		std.setStdPhone(phon);;
+//		std.setStdAddress(add);
+//		std.setBirthDate(birth);
+//		
+////		if(sdao.insertStudent(std)) {
+//			System.out.println("저장완료!");
+//		}else {
+//			System.out.println("처리중 예외발생");
+//		}
 	}
 	// 목록 출력 기능.
-	void studentlist() {
-		List<StudentVo> students =  sdao.selectList();
-		System.out.println("학생번호  학생이름  연락처");
+	void selectList() {
+		List<GYMVo> GYM =  sdao.selectList();
+		System.out.println("번호  이름 나이  성별 등록일 남은날짜 ");
 		System.out.println("--------------------");
-		for(StudentVo svo : students) {
-			System.out.println(svo.briefShow());
+		for(GYMVo svo : GYM) {
+			System.out.println(svo.toString());
 		}
 	} // end of studentlist
 	//수정기능
