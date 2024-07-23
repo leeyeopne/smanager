@@ -3,6 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.mapper.BoardMapper">
+	<sql id="selectCondition">
+	where
+		<choose>
+			<when test="searchCondition == 'T'.toString()">
+				title like '%'|| #{keyword} ||'%'
+			</when>
+			<when test="searchCondition == 'W'.toString()">
+				writer like '%'|| #{keyword} || '%'
+			</when>
+			<when test="searchCondition == 'TW'.toString()">
+				title like '%'|| #{keyword} ||'%' or writer like
+				'%'|| #{keyword} || '%'
+			</when>
+			<otherwise>1 = 1</otherwise>
+		</choose>
+	</sql>
+	
 	<select id="selectList" resultType="com.yedam.vo.BoardVO">
 		select board_no,
 		title,
@@ -13,11 +30,11 @@
 		from tbl_board
 		order by board_no
 	</select>
-
+	
 	<insert id="insertBoard" parameterType="com.yedam.vo.BoardVO">
 		insert into tbl_board
-		(board_no, title, writer, content)
-		values(board_seq.nextval,#{title},#{writer},#{content})
+		(board_no, title, writer, content, image)
+		values(board_seq.nextval,#{title},#{writer},#{content}, #{image})
 	</insert>
 
 	<update id="updateBoard" parameterType="com.yedam.vo.BoardVO">
@@ -32,21 +49,64 @@
 		</set>
 		where board_no = #{boardNo}
 	</update>
-	
-	<delete id="deleteBoard" parameterType="int">
+
+	<delete id="deleteBoard" parameterType="com.yedam.vo.BoardVO">
 		DELETE FROM tbl_board
 		where board_no = #{boardNo}
 	</delete>
-	
+
 	<select id="selectBoard" resultType="com.yedam.vo.BoardVO">
 		select board_no,
 		title,
 		content,
 		writer,
 		view_cnt,
-		write_date
+		write_date,
+		image
 		from tbl_board
-		where board_no = #{boardNo}
+		where board_no =
+		#{boardNo}
 		order by board_no
 	</select>
+	<!-- 페이징 목록 -->
+	<select id="selectListPaging"
+		parameterType="com.yedam.common.SearchVO">
+		select b.*
+		from (select rownum rn, a.*
+		from(SELECT *
+		FROM tbl_board
+		<include refid="selectCondition"></include>
+		order by board_no desc ) a ) b
+		where b.rn > (#{page} - 1) * 5
+		<![CDATA[		
+		and b.rn <= (#{page} * 5)
+		]]>
+	</select>
+	<!-- 페이징 계산용 전체건수 -->
+	<select id="selectTotalCount">
+		select count(1)
+		from tbl_board
+		<include refid="selectCondition"></include>
+	</select>
+
+	<select id="selectMember" resultType="com.yedam.vo.MemberVO">
+		select *
+		from tbl_member
+		where member_id = #{id}
+		and member_pw = #{pw}
+	</select>
+	<select id="memberList" parameterType="String" resultType="com.yedam.vo.MemberVO">
+		select *
+		from tbl_member
+		where responsibility = 'User'
+		<choose>
+			<when test="order == 'member_id'.toString()">
+				ORDER BY member_id
+			</when>
+			<when test="order == 'member_nm'.toString()">
+				ORDER BY member_nm
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</select>	
 </mapper>

@@ -2,7 +2,11 @@ package com.yedam.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.yedam.common.SearchVO;
 import com.yedam.vo.BoardVO;
+import com.yedam.vo.MemberVO;
 
 /*
  * 글목록, 등록, 수정, 삭제, 단건조회
@@ -10,10 +14,15 @@ import com.yedam.vo.BoardVO;
  * */
 
 public interface BoardMapper {
-	List<BoardVO> selectList();
+	List<BoardVO> selectList(SearchVO search);
+	List<BoardVO> selectListPaging(SearchVO search); //페이지정보 -> 5건씩 출력
+	int selectTotalCount(SearchVO search);
 	int insertBoard(BoardVO board);
 	int updateBoard(BoardVO board);
 	int deleteBoard(int boardNo);
 	BoardVO selectBoard(int boardNo);
+	MemberVO selectMember(@Param("id")String id, @Param("pw") String pw);
+	List<MemberVO> memberList(String order);
+	
 	
 }

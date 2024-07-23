@@ -11,11 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Control;
+import com.yedam.control.ActionControl;
 import com.yedam.control.AddBoardControl;
+import com.yedam.control.AdminMemListControl;
 import com.yedam.control.Board;
 import com.yedam.control.BoardForm;
 import com.yedam.control.BoardListControl;
+import com.yedam.control.BoardRemove;
+import com.yedam.control.DeleteBoard;
+import com.yedam.control.LoginControl;
+import com.yedam.control.LoginForm;
+import com.yedam.control.LogoutControl;
+import com.yedam.control.MemberListControl;
 import com.yedam.control.StudentListControl;
+import com.yedam.control.UpdateBoard;
+import com.yedam.control.modifyForm;
 
 /*
  * FontController 역할은 사용자의 모든 요청을 처리
@@ -36,8 +46,25 @@ public class FrontController extends HttpServlet{
 	 map.put("/addBoard.do", new AddBoardControl());
 	 // 학생목록
 	 map.put("/stdList.do", new StudentListControl());
+	 //상세목록
 	 map.put("/board.do", new Board());
-	}
+	 //삭제
+	 map.put("/boardRemove.do", new BoardRemove());
+	 map.put("/deleteBoard.do", new DeleteBoard());
+	 //수정
+	 map.put("/modifyBoard.do", new modifyForm());
+	 map.put("/updateBoard.do", new UpdateBoard());
+	 //태그연습
+	 map.put("/action.do", new ActionControl());
+	 
+	 //로그인
+	 map.put("/loginForm.do", new LoginForm());
+	 map.put("/login.do", new LoginControl());
+	 map.put("/logout.do", new LogoutControl());
+	 
+	 //관리자
+	 map.put("/memberList.do", new MemberListControl());
+	 }
  @Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	 //boardList.do - 목록. addBoard.do-등록

@@ -6,8 +6,13 @@ import com.yedam.service.BoardServiceImpl;
 public class AppTest {
 	public static void main(String[] args) {
 		BoardService svc = new BoardServiceImpl();
-		svc.boardList().forEach(brd -> System.out.println(brd));
-		svc.boardList().forEach(System.out::println);
+//		svc.boardList(2).forEach(brd -> System.out.println(brd));
+//		svc.boardList(2).forEach(System.out::println);
+		SearchVO search = new SearchVO();
+		search.setSearchCondition("T");
+		search.setKeyword("java");
+		search.setPage(1);
+		svc.boardList(search).forEach(System.out::println);
 		System.out.println("- End -");
 		
 //		SqlSession sqlSession = 
