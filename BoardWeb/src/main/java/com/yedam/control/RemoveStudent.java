@@ -7,13 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Control;
+import com.yedam.service.MemberService;
+import com.yedam.service.MemberServiceImpl;
 
-public class AdminMemListControl implements Control {
+public class RemoveStudent implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		req.getRequestDispatcher("WEB-INF/jsp/memberList.jsp").forward(req, resp);
+		String sno = req.getParameter("sno");
+		MemberService svc  = new MemberServiceImpl();
+		if(svc.removeStudent(sno)) {
+			resp.getWriter().print("\"retCode\":\"Success\"}");
+		}else {
+			resp.getWriter().print("\"retCode\":\"Fail\"}");
+		}
 	}
 
 }

@@ -98,7 +98,12 @@
 	<select id="memberList" parameterType="String" resultType="com.yedam.vo.MemberVO">
 		select *
 		from tbl_member
-		where responsibility = 'User'
+		<choose>
+			<when test="#{members} == null">
+				where resPonsibility = User
+			</when>
+			<otherwise>where resPonsibility = #{members}</otherwise>
+		</choose>
 		<choose>
 			<when test="order == 'member_id'.toString()">
 				ORDER BY member_id
@@ -108,5 +113,9 @@
 			</when>
 			<otherwise></otherwise>
 		</choose>
+	</select>	
+	<select id="studentList" resultType="student">
+		select * from tbl_student
+		order by std_no
 	</select>	
 </mapper>

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yedam.common.SearchVO;
 import com.yedam.vo.BoardVO;
 import com.yedam.vo.MemberVO;
+import com.yedam.vo.StudentVo;
 
 /*
  * 글목록, 등록, 수정, 삭제, 단건조회
@@ -22,7 +23,12 @@ public interface BoardMapper {
 	int deleteBoard(int boardNo);
 	BoardVO selectBoard(int boardNo);
 	MemberVO selectMember(@Param("id")String id, @Param("pw") String pw);
-	List<MemberVO> memberList(String order);
+	List<MemberVO> memberList(@Param("order") String order, @Param("members") String members);
+	public List<StudentVo> studentList();
+	int deleteStudent(String sno);
+	int insertStudent(StudentVo svo);
+	
+
 	
 	
 }

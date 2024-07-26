@@ -1,42 +1,29 @@
 package com.yedam.common;
 
-import com.yedam.service.BoardService;
-import com.yedam.service.BoardServiceImpl;
+import com.yedam.service.ReplyService;
+import com.yedam.service.ReplyServiceImpl;
+import com.yedam.vo.ReplyVO;
 
 public class AppTest {
 	public static void main(String[] args) {
-		BoardService svc = new BoardServiceImpl();
-//		svc.boardList(2).forEach(brd -> System.out.println(brd));
-//		svc.boardList(2).forEach(System.out::println);
-		SearchVO search = new SearchVO();
-		search.setSearchCondition("T");
-		search.setKeyword("java");
-		search.setPage(1);
-		svc.boardList(search).forEach(System.out::println);
-		System.out.println("- End -");
-		
-//		SqlSession sqlSession = 
-//				DataSource.getInstance().openSession(true); //<-true 자동 커밋
-//		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+		ReplyService svc = new ReplyServiceImpl();
+		ReplyVO rvo = new ReplyVO();
+//		rvo.setReplyContent("등록연습");
+//		rvo.setReplyer("user03");
+//		rvo.setReplyNo(149);
 //		
-//		BoardVO brd = new BoardVO();
-//		brd.setTitle("메퍼테스트");
-//		brd.setContent("조건이 제대로 되는지111");
-//		brd.setWriter("newbile");
-//		brd.setBoardNo(5);
-////		if(mapper.updateBoard(brd)==1) {
-////			System.out.println("OK");
-////		}
-//		
-//		if(mapper.deleteBoard(6)==1) {
-//			System.out.println("ok");
+//		if(svc.addReply(rvo)) {
+//			System.out.println("등록완료!");
 //		}
-////		System.out.println(mapper.deleteBoard(6));
-//		System.out.println(mapper.selectBoard(5));
 //		
-//		
-//		mapper.selectList().forEach(board -> System.out.println(board.toString()));
+//		if(svc.removeReply(1)) {
+//			System.out.println("삭제완료!");
+//		}		
+		SearchVO search = new SearchVO();
+		search.setBno(148);
+		search.setPage(5);
 		
-//		System.out.println("- End -");
+		svc.replyList(search).forEach(System.out::println);
+		System.out.println("-END-");
 	}
 }

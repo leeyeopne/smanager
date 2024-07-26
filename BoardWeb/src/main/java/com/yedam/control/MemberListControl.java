@@ -17,12 +17,13 @@ public class MemberListControl implements Control {
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String order = req.getParameter("order");
+		String members = req.getParameter("members");
 		MemberService mem = new MemberServiceImpl();
-		
-		List<MemberVO> memL = mem.adminMemberList(order);
+		members = members == null ? "User" : members;
+		List<MemberVO> memL = mem.adminMemberList(order, members);
 		req.setAttribute("love", memL);
-		
-		
+		req.setAttribute("order", order);
+		req.setAttribute("members", members);
 		req.getRequestDispatcher("admin/memberList.tiles").forward(req, resp);
 		
 	}

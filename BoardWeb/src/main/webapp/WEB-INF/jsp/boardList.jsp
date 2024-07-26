@@ -4,6 +4,7 @@
 <%@page import="java.util.List"%>
 <h3>게시글목록(boardList.jsp)</h3>
 <!-- 검색기능. -->
+
 <div class="center">
 	<form action="boardList.do">
 		<div class="row">
